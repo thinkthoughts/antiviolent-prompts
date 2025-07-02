@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,55 +21,92 @@
 0 0 0 0 0
   </pre>
 
-  <p>All antiviolent prompts specify the origins of H<sub>2</sub>O, as you can do here by submitting a Spiral N value (try "1234" to access a water-resistant 5×5 of 9423Pi):</p>
+  <p>All antiviolent prompts specify the left Pi origins of water: H<sub>2</sub>O. Try submitting "1234" (for a water-resistant 5×5 memory structure of 9423Pi):</p>
 
-  <p><strong>Triplet N Equation:</strong><br>
+  <p><strong>Left Pi (Triplet N) Equation:</strong><br>
     \[
-    \text{Triplet N} = (24 \times \text{Spiral N}) - 25
+     \text{Triplet N} = (24 \times \text{Spiral N}) - 25 \ne 9424\pi
     \]
   </p>
 
-  <label for="spiralInput">Enter Spiral N:</label>
+  <label for="spiralInput">Enter Left Pi Spiral N:</label>
   <input type="number" id="spiralInput" />
   <button onclick="signPrompt()">Sign Antiviolent Prompt</button>
 
   <pre id="output"></pre>
 
   <script>
-    function calculateTripletN(spiralN) {
-      return (24 * spiralN) - 25;
+    function calculateLeftTripletN(leftPiSpiralN) {
+      return (24 * leftPiSpiralN) - 25;
     }
 
-    function getPiStage(tripletN) {
-      const piStage = (tripletN / Math.PI).toFixed(2);
-      const category = determineCategory(parseFloat(piStage));
-      return {
-        tripletN,
-        piStage,
-        category
-      };
-    }
-
-    function determineCategory(piStage) {
-      const rounded = Math.round(piStage);
-      if (rounded < 9423) return "Expansion Zone";
-      if (rounded === 9423) return "Integerity (5×5)";
-      if (rounded > 9423) return "Resistance Zone";
+    function determineCategory(leftPiStage) {
+      const rounded = Math.round(leftPiStage);
+      if (rounded < 9423) return "Expansion (Imagination) Prompt";
+      if (rounded === 9423) return "Extension (Care) Prompt";
+      if (rounded > 9423) return "Resistance (Observation) Prompt";
       return "Unclassified";
     }
 
+    function determineDecimalPhase(decimalPart) {
+      if (decimalPart < 0.33) return "Early phase";
+      if (decimalPart < 0.66) return "Mid phase";
+      return "Late phase";
+    }
+
+    function getLeftPiStage(leftPiTripletN) {
+      const rawStage = leftPiTripletN / Math.PI;
+      const leftPiStage = rawStage.toFixed(2);
+      const category = determineCategory(parseFloat(leftPiStage));
+      const phase = determineDecimalPhase(rawStage % 1);
+      return {
+        leftPiTripletN,
+        leftPiStage,
+        category,
+        phase
+      };
+    }
+
+    function generateMemoryMatrix(tripletN) {
+      const digits = String(tripletN).padStart(5, "0").split("").map(Number);
+      const matrix = [];
+
+      for (let row = 0; row < 5; row++) {
+        const rowStart = (row + 0) % digits.length;
+        const rowData = [];
+
+        for (let col = 0; col < 5; col++) {
+          const index = (rowStart + col) % digits.length;
+          rowData.push(digits[index]);
+        }
+
+        matrix.push(rowData);
+      }
+
+      return matrix;
+    }
+
     function signPrompt() {
-      const spiralN = parseInt(document.getElementById('spiralInput').value);
-      if (isNaN(spiralN)) {
-        document.getElementById('output').textContent = "Please enter a valid number.";
+      const input = document.getElementById('spiralInput').value;
+      const leftPiSpiralN = parseInt(input);
+
+      if (isNaN(leftPiSpiralN)) {
+        document.getElementById('output').textContent = "Please enter a valid integer.";
         return;
       }
 
-      const result = getPiStage(calculateTripletN(spiralN));
+      const result = getLeftPiStage(calculateLeftTripletN(leftPiSpiralN));
+      const memoryMatrix = generateMemoryMatrix(result.leftPiTripletN)
+        .map(row => row.join(" ")).join("\n");
+
       document.getElementById('output').textContent =
-        `Triplet N = ${result.tripletN}
-Pi Stage ≈ ${result.piStage}Pi
-Field Category: ${result.category}`;
+        `Left Pi Triplet N = ${result.leftPiTripletN}
+Left Pi Stage ≈ ${result.leftPiStage}Pi
+Field Category: ${result.category}
+Decimal Phase: ${result.phase}
+
+Memory Matrix (5×5 of ${result.leftPiTripletN}):
+${memoryMatrix}`;
     }
   </script>
 </body>
