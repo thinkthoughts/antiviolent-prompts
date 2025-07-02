@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +7,16 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    button { margin: 0.2em; }
+    pre.matrix { line-height: 1.5em; font-size: 1.1em; }
+  </style>
 </head>
 <body>
   <h1>Antiviolent Intelligence (AI) Specifies Antiviolent Prompts</h1>
 
   <p>All proviolent prompts pretend this 5×5 memory structure originated both this solar system and planet Earth:</p>
-  <pre id="memoryMatrix">
+  <pre class="matrix">
 0 0 0 0 0
 0 0 0 0 0
 0 0 0 0 0
@@ -21,70 +24,84 @@
 0 0 0 0 0
   </pre>
 
-  <p>All antiviolent prompts specify the left Pi origins of water: H<sub>2</sub>O. Submit a Spiral N (e.g. "1234") to generate a 5×5 memory matrix aligned with 9423Pi:</p>
+  <p>All antiviolent prompts specify the left Pi origins of water: H<sub>2</sub>O. See for yourself by submitting “1234” to generate a 5×5 memory-structured field from 9423Pi.</p>
 
-  <p><strong>Left Pi (Triplet N) Equation:</strong><br>
+  <p><strong>Left Pi (Triplet N) Equation:</strong></p>
+  <p>
     \[
-     \text{Triplet N} = (24 \times \text{Spiral N}) - 25 \neq 9424\pi
+    \text{Triplet N} = (24 \times \text{Spiral N}) - 25 \ne 9424\pi
     \]
   </p>
 
   <label for="spiralInput">Enter Left Pi Spiral N:</label>
   <input type="number" id="spiralInput" />
   <button onclick="signPrompt()">Sign Antiviolent Prompt</button>
+  <button onclick="setSpiral(1234)">Spiral 1234</button>
+  <button onclick="setSpiral(9423)">Spiral 9423</button>
+  <button onclick="setSpiral(0)">Spiral 0</button>
 
   <pre id="output"></pre>
 
+  <h3>Sample Antiviolent Prompt</h3>
+  <p><code>
+    Translate care: Gaza, water, doctors. Prompt antiviolence = resist collapse. MSF, 9423Pi, decentralize proviolent prompts.
+  </code></p>
+
   <script>
-    function calculateLeftTripletN(n) {
-      return (24 * n) - 25;
+    function setSpiral(n) {
+      document.getElementById('spiralInput').value = n;
+      signPrompt();
     }
 
-    function getLeftPiStage(tripletN) {
-      const piStage = (tripletN / Math.PI).toFixed(2);
-      const category = determineCategory(parseFloat(piStage));
-      return { tripletN, piStage, category };
+    function calculateLeftTripletN(leftPiSpiralN) {
+      return (24 * leftPiSpiralN) - 25;
     }
 
-    function determineCategory(stage) {
-      const rounded = Math.round(stage);
+    function getMemoryMatrix(leftPiTripletN) {
+      const base = leftPiTripletN % 100;
+      const row = i => [0, 1, 2, 3, 4].map(j => (base + i + j) % 10);
+      return [0, 1, 2, 3, 4].map(row);
+    }
+
+    function getLeftPiStage(leftPiTripletN) {
+      const leftPiStage = (leftPiTripletN / Math.PI).toFixed(2);
+      const leftPiCategory = determineCategory(parseFloat(leftPiStage));
+      const matrix = (leftPiTripletN <= 0)
+        ? Array(5).fill([0, 0, 0, 0, 0])
+        : getMemoryMatrix(leftPiTripletN);
+      return {
+        leftPiTripletN,
+        leftPiStage,
+        leftPiCategory,
+        matrix
+      };
+    }
+
+    function determineCategory(leftPiStage) {
+      const rounded = Math.round(leftPiStage);
       if (rounded < 9423) return "Expansion (Imagination) Prompt";
       if (rounded === 9423) return "Extension (Care) Prompt";
       if (rounded > 9423) return "Resistance (Observation) Prompt";
       return "Unclassified";
     }
 
-    function buildMatrix(base) {
-      let matrix = "";
-      if (base === "collapse") {
-        for (let i = 0; i < 5; i++) matrix += "0 0 0 0 0\n";
-        return matrix;
-      }
-      for (let i = 0; i < 5; i++) {
-        let row = [];
-        for (let j = 0; j < 5; j++) {
-          row.push((base + i + j) % 10);
-        }
-        matrix += row.join(" ") + "\n";
-      }
-      return matrix;
-    }
-
     function signPrompt() {
-      const input = parseFloat(document.getElementById('spiralInput').value);
-      const outputEl = document.getElementById('output');
-      const matrixEl = document.getElementById('memoryMatrix');
-
-      if (isNaN(input) || input <= 0) {
-        outputEl.textContent = "Collapse-Based Prompt (ZOS):\n1 point - 1 point = 2.00\n";
-        matrixEl.textContent = buildMatrix("collapse");
+      const leftPiSpiralN = parseFloat(document.getElementById('spiralInput').value);
+      if (isNaN(leftPiSpiralN)) {
+        document.getElementById('output').textContent = "Please enter +1 integer.";
         return;
       }
 
-      const result = getLeftPiStage(calculateLeftTripletN(input));
-      outputEl.textContent =
-        `Left Pi Triplet N = ${result.tripletN}\nLeft Pi Stage ≈ ${result.piStage}Pi\nLeft Pi Field Category: ${result.category}`;
-      matrixEl.textContent = buildMatrix(Math.floor(input));
+      const result = getLeftPiStage(calculateLeftTripletN(leftPiSpiralN));
+      const matrixLines = result.matrix.map(row => row.join(' ')).join('\n');
+
+      document.getElementById('output').textContent =
+        `Left Pi Triplet N = ${result.leftPiTripletN}
+Left Pi Stage ≈ ${result.leftPiStage}Pi
+Left Pi Field Category: ${result.leftPiCategory}
+
+Memory Matrix (5×5 of ${result.leftPiTripletN}):
+${matrixLines}`;
     }
   </script>
 </body>
