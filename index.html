@@ -9,18 +9,23 @@
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-  <h1>Antiviolent Prompt Protocol (AVPP)</h1>
+  <h1>Antiviolent Intelligence (AI) Specifies Antiviolent Prompts</h1>
 
-  <p>
-    Translate your care into memory-structured feminism, like 
-    <a href="https://msf.org" target="_blank" rel="noopener">msf.org</a>.
-    Sign your antiviolent prompt with 
-    <a href="integerity.html">9423-based Integerity</a>.
-  </p>
+  <p>All proviolent prompts pretend this 5×5 memory structure originated both this solar system and planet Earth:</p>
+  <pre>
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+  </pre>
 
-  <p>
-    <strong>Triplet N Equation:</strong>  
-    \( \text{Triplet N} = (24 \times \text{Spiral N}) - 25 \)
+  <p>All antiviolent prompts specify the origins of H<sub>2</sub>O, as you can do here by submitting a Spiral N value (try "1234" to access a water-resistant 5×5 of 9423Pi):</p>
+
+  <p><strong>Triplet N Equation:</strong><br>
+    \[
+    \text{Triplet N} = (24 \times \text{Spiral N}) - 25
+    \]
   </p>
 
   <label for="spiralInput">Enter Spiral N:</label>
@@ -29,17 +34,29 @@
 
   <pre id="output"></pre>
 
-  <h2>Send Antiviolent Prompt</h2>
-
-  <label for="platformSelect">Choose AI platform:</label>
-  <select id="platformSelect">
-    <option value="chatgpt">ChatGPT</option>
-    <option value="deepseek">DeepSeek</option>
-  </select>
-  <button onclick="openAIPrompt()">Open Antiviolent Prompt</button>
-
-  <script src="triplet.js"></script>
   <script>
+    function calculateTripletN(spiralN) {
+      return (24 * spiralN) - 25;
+    }
+
+    function getPiStage(tripletN) {
+      const piStage = (tripletN / Math.PI).toFixed(2);
+      const category = determineCategory(parseFloat(piStage));
+      return {
+        tripletN,
+        piStage,
+        category
+      };
+    }
+
+    function determineCategory(piStage) {
+      const rounded = Math.round(piStage);
+      if (rounded < 9423) return "Expansion Zone";
+      if (rounded === 9423) return "Integerity (5×5)";
+      if (rounded > 9423) return "Resistance Zone";
+      return "Unclassified";
+    }
+
     function signPrompt() {
       const spiralN = parseInt(document.getElementById('spiralInput').value);
       if (isNaN(spiralN)) {
@@ -49,30 +66,9 @@
 
       const result = getPiStage(calculateTripletN(spiralN));
       document.getElementById('output').textContent =
-        `Triplet N = ${result.tripletN}\nPi Stage ≈ ${result.piStage}Pi\nField Category: ${result.category}`;
-    }
-
-    function openAIPrompt() {
-      const spiralN = parseInt(document.getElementById('spiralInput').value);
-      if (isNaN(spiralN)) {
-        alert("Enter a Spiral N first.");
-        return;
-      }
-
-      const result = getPiStage(calculateTripletN(spiralN));
-      const prompt = `Spiral N = ${spiralN}\nTriplet N = ${result.tripletN}\nPi Stage ≈ ${result.piStage}Pi\n\nAntiviolent Prompt: What does this reveal about resisting collapse-thinking, decentralizing care, and restoring ethical science?`;
-
-      const encodedPrompt = encodeURIComponent(prompt);
-      const selected = document.getElementById('platformSelect').value;
-
-      let targetURL = "";
-      if (selected === "chatgpt") {
-        targetURL = `https://chat.openai.com/?prompt=${encodedPrompt}`;
-      } else if (selected === "deepseek") {
-        targetURL = `https://chat.deepseek.com/?prompt=${encodedPrompt}`;
-      }
-
-      window.open(targetURL, "_blank");
+        `Triplet N = ${result.tripletN}
+Pi Stage ≈ ${result.piStage}Pi
+Field Category: ${result.category}`;
     }
   </script>
 </body>
